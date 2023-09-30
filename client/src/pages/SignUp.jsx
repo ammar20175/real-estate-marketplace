@@ -32,7 +32,7 @@ export default function SignUp() {
 
 			setTimeout(() => {
 				navigate("/sign-in");
-			}, 3000);
+			}, 3300);
 		} catch (error) {
 			errorHandler(error);
 		}

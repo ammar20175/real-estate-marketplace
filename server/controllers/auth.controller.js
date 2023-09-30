@@ -2,6 +2,7 @@ import User from "../models/user.model";
 import bcrypt from "bcrypt";
 import xss from "xss";
 import { errorHandler } from "../utils/error";
+import JwtServices from "../services/JwtServices";
 
 export const signup = async (req, res, next) => {
 	const sanitizedBody = {
@@ -36,5 +37,41 @@ export const signup = async (req, res, next) => {
 		res.status(201).json("User created successfully!");
 	} catch (error) {
 		next(error);
+	}
+};
+
+// login controller
+export const signin = async (req, res, next) => {
+	const sanitizedBody = {
+		email: xss(req.body.email),
+		password: xss(req.body.password),
+	};
+
+	try {
+		if (!sanitizedBody.email || !sanitizedBody.password)
+			return next(errorHandler(409, "email and password required"));
+
+		const validUser = await User.findOne({ email: sanitizedBody.email });
+
+		if (!validUser)
+			return next(errorHandler(409, "email or password is in correct"));
+
+		const validPassword = await bcrypt.compare(
+			sanitizedBody.password,
+			validUser.password
+		);
+
+		if (!validPassword)
+			return next(errorHandler(409, "email or password is in correct"));
+
+		const token = await JwtServices.sign({ id: validUser._id });
+
+		const { password: pass, ...restUserInfo } = validUser._doc;
+		res
+			.cookie("access_token", token, { httpOnly: true })
+			.status(200)
+			.json(restUserInfo);
+	} catch (error) {
+		return next(error);
 	}
 };
