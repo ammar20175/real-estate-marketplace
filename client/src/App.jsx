@@ -4,13 +4,14 @@ import {
 	createRoutesFromElements,
 	RouterProvider,
 } from "react-router-dom";
-import Header from "./components/Header";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import RootLayout from "./pages/RootLayout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 	const router = createBrowserRouter(
@@ -31,7 +32,17 @@ function App() {
 		)
 	);
 
-	return <RouterProvider router={router} />;
+	return (
+		<>
+			<ToastContainer
+				autoClose={3000}
+				closeButton={false}
+				position="top-center"
+				toastClassName="#0D4041"
+			/>
+			<RouterProvider router={router} />
+		</>
+	);
 }
 
 export default App;
