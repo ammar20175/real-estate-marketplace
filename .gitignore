@@ -8,7 +8,11 @@ pnpm-debug.log*
 lerna-debug.log*
 
 client/node_modules
+client/src/config/firebase-config.js
+
 server/node_modules
+server/config/firebase-config.js
+server/config/serviceAccountKey.json
 server/.env
 client/dist
 dist-ssr

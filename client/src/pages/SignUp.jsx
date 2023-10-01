@@ -8,6 +8,7 @@ import MainButton from "../components/MainButton";
 import newRequest from "../lib/newRequest";
 import { toast } from "react-toastify";
 import errorHandler from "../lib/errorHandler";
+import Oauth from "../components/Oauth";
 
 export default function SignUp() {
 	const navigate = useNavigate();
@@ -79,6 +80,12 @@ export default function SignUp() {
 					Sign Up
 				</MainButton>
 			</form>
+
+			<div className="mt-4">
+				<h3 className="text-center font-semibold my-2">OR</h3>
+				{/* oauth */}
+				<Oauth />
+			</div>
 
 			<div className="flex gap-2 mt-5">
 				<p>Have an account</p>
