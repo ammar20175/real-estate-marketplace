@@ -12,6 +12,7 @@ import About from "./pages/About";
 import RootLayout from "./pages/RootLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
 	const router = createBrowserRouter(
@@ -26,7 +27,9 @@ function App() {
 
 					<Route path="about" element={<About />} />
 
-					<Route path="profile" element={<Profile />} />
+					<Route path="profile" element={<PrivateRoute />}>
+						<Route index element={<Profile />} />
+					</Route>
 				</Route>
 			</>
 		)
