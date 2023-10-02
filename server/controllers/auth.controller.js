@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import xss from "xss";
 import { errorHandler } from "../utils/error";
 import JwtServices from "../services/JwtServices";
+import { verifyGoogleIdToken } from "../config/firebase-config";
 
 export const signup = async (req, res, next) => {
 	const sanitizedBody = {
@@ -71,6 +72,58 @@ export const signin = async (req, res, next) => {
 			.cookie("access_token", token, { httpOnly: true })
 			.status(200)
 			.json(restUserInfo);
+	} catch (error) {
+		return next(error);
+	}
+};
+
+//google signin controller.
+
+export const googleSignin = async (req, res, next) => {
+	const sanitizedBody = {
+		idToken: xss(req.body.idToken),
+	};
+
+	try {
+		const { name, picture, email } = await verifyGoogleIdToken(
+			sanitizedBody.idToken
+		);
+
+		const user = await User.findOne({ email });
+		if (user) {
+			const token = await JwtServices.sign({ id: user._id });
+			const { password: pass, ...restUserInfo } = user._doc;
+
+			res
+				.cookie("access_token", token, { httpOnly: true })
+				.status(200)
+				.json(restUserInfo);
+		} else {
+			const generatedPassword = Math.random().toString(36).slice(-8);
+			//unique username
+			const username =
+				name.split(" ").join("").toLowerCase() +
+				Math.random().toString(36).slice(-4);
+
+			const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
+			const newUser = new User({
+				username,
+				email,
+				password: hashedPassword,
+				avatar: picture,
+			});
+
+			await newUser.save();
+
+			const token = await JwtServices.sign({ id: newUser._id });
+			const { password: pass, ...restUserInfo } = newUse._doc;
+
+			res
+				.cookie("access_token", token, { httpOnly: true })
+				.status(200)
+				.json(restUserInfo);
+		}
 	} catch (error) {
 		return next(error);
 	}

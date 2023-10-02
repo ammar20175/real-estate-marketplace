@@ -9,6 +9,7 @@ import newRequest from "../lib/newRequest";
 import errorHandler from "../lib/errorHandler";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/user/userSlice";
+import Oauth from "../components/Oauth";
 
 export default function SignIn() {
 	const navigate = useNavigate();
@@ -76,6 +77,12 @@ export default function SignIn() {
 					Sign In
 				</MainButton>
 			</form>
+
+			<div className="mt-4">
+				<h3 className="text-center font-semibold my-2">OR</h3>
+				{/* oauth */}
+				<Oauth />
+			</div>
 
 			<div className="flex gap-2 mt-5">
 				<p>Dont have an account</p>
