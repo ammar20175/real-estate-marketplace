@@ -4,6 +4,7 @@ import connectDataBase from "./utils/connect";
 import authRouter from "./routes/auth.route";
 import userRouter from "./routes/user.route";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use(express.json());
 //conncet to database
 
 connectDataBase();
-
+app.use(cookieParser());
 app.use(cors({ origin: ["http://localhost:5173"], credentials: true }));
 
 const PORT = process.env.PORT || APP_PORT;
