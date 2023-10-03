@@ -13,7 +13,6 @@ export const updateUser = async (req, res, next) => {
 		password: xss(req.body.password),
 		avatar: xss(req.body.avatar),
 	};
-	console.log(sanitizedBody.avatar);
 	const updates = {};
 
 	if (sanitizedBody.username) updates.username = sanitizedBody.username;
@@ -48,6 +47,22 @@ export const updateUser = async (req, res, next) => {
 		res.status(200).json(restUserInfo);
 	} catch (error) {
 		console.log(error);
+		return next(error);
+	}
+};
+
+export const deleteUser = async (req, res, next) => {
+	const id = xss(req.params.id);
+	if (req.user.id !== id) return next(errorHandler(401, "invalid request"));
+
+	try {
+		await User.findByIdAndDelete(id);
+
+		res
+			.clearCookie("access_token")
+			.status(200)
+			.json("User deleted successfully");
+	} catch (error) {
 		return next(error);
 	}
 };
