@@ -13,6 +13,8 @@ import RootLayout from "./pages/RootLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "./components/PrivateRoute";
+import CreateListing from "./pages/CreateListing";
+import Listing from "./pages/Listing";
 
 function App() {
 	const router = createBrowserRouter(
@@ -27,8 +29,11 @@ function App() {
 
 					<Route path="about" element={<About />} />
 
-					<Route path="profile" element={<PrivateRoute />}>
-						<Route index element={<Profile />} />
+					<Route path="listing/:id" element={<Listing />} />
+
+					<Route element={<PrivateRoute />}>
+						<Route path="profile" element={<Profile />} />
+						<Route path="create-listing" element={<CreateListing />} />
 					</Route>
 				</Route>
 			</>

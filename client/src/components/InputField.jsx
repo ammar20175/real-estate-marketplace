@@ -2,14 +2,15 @@ import { motion } from "framer-motion";
 import { forwardRef } from "react";
 
 const InputField = forwardRef(
-	({ invalid, errorMessage, className, ...props }, ref) => {
+	({ invalid, errorMessage, className, onChange, ...props }, ref) => {
 		return (
 			<div>
 				<input
+					onChange={onChange}
 					ref={ref}
 					{...props}
 					className={[
-						`border p-3 rounded-lg w-full outline-blue-300`,
+						`border p-3 rounded-lg w-full outline-gray-400`,
 						className,
 					].join(" ")}
 				/>

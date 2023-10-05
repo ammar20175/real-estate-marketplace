@@ -21,6 +21,7 @@ import {
 	deletUserSuccess,
 	signOutSuccess,
 } from "../redux/user/userSlice";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
 	const { currentUser } = useSelector((state) => state.user);
@@ -87,6 +88,7 @@ export default function Profile() {
 
 			dispatch(updateUserSuccess(data));
 			setFilePerc(0);
+			setFile(undefined);
 			toast.success("Profile Updated Successfully");
 		} catch (error) {
 			if (error.response.status === 409)
@@ -179,6 +181,10 @@ export default function Profile() {
 					Update
 				</MainButton>
 			</form>
+
+			<Link to="/create-listing">
+				<MainButton className="bg-green-700 mt-4" fullWidth>Create Listing</MainButton>
+			</Link>
 
 			<div className="flex justify-between mt-4">
 				<span

@@ -7,16 +7,17 @@ const MainButton = ({
 	isLoading,
 	fullWidth,
 	className,
+	disabled,
 	...props
 }) => {
 	return (
 		<motion.button
 			whileTap={{ scale: 0.95 }}
 			onClick={onClick}
-			disabled={props.disabled || isLoading}
+			disabled={disabled || isLoading}
 			type={props.type || "button"}
 			className={[
-				` text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-85`,
+				` text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-50`,
 				fullWidth ? "w-full" : "",
 				className,
 			].join(" ")}
